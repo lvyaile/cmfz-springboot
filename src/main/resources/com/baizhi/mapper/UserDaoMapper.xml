@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDao">
+    <select id="queryAll" resultType="User">
+        select * from User limit #{start},#{end}
+    </select>
+    <select id="getCount" resultType="int">
+        select count(id) from user
+    </select>
+    <update id="update">
+        update user set name=#{name} , password=#{password}, dharma=#{dharma}, photo=#{photo}, salt=#{salt}, sex=#{sex},
+        location=#{location}, sign=#{sign}, status=#{status}, phoneNum=#{phoneNum}, registDate=#{registDate} where
+        id=#{id}
+    </update>
+    <select id="queryAllUser" resultType="User">
+        select * from User
+    </select>
+    <insert id="add" >
+        INSERT INTO USER VALUES(0,#{name},#{dharma},#{photo},#{password},#{salt},
+        #{sex},#{location},#{sign},#{status},#{phoneNum},#{registDate})
+
+    </insert>
+    <select id="userNum" resultType="int">
+        select count(*)from user where DATEDIFF(NOW(),registDate)&lt;7
+    </select>
+    <select id="userNum2" resultType="int">
+        select count(*)from user where DATEDIFF(NOW(),registDate)&lt;14
+    </select>
+    <select id="userNum3" resultType="int">
+        select count(*)from user where DATEDIFF(NOW(),registDate)&lt;21
+    </select>
+    <select id="chinaMale" resultType="China">
+        select location,count(*) count from user where sex='0' group by location
+    </select>
+    <select id="chinaFemale" resultType="China">
+        select location,count(*) count from user where sex='1' group by location
+    </select>
+</mapper>

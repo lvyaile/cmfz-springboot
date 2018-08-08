@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.BannerDao">
+    <select id="queryAll" resultType="Banner">
+        select * from banner where status='Y' limit  #{start},#{end}
+    </select>
+    <select id="getCount" resultType="int">
+        select  count(id) from banner where status ='Y'
+    </select>
+    <insert id="add" >
+        insert into banner values(0,#{title},#{url},#{status},sysDate(),#{description})
+    </insert>
+    <delete id="delete">
+        delete from banner where id=#{id}
+        <!--<foreach collection="array"   open="("   close=")"   separator=","  item="id">#{id}</foreach>-->
+    </delete>
+    <update id="update">
+        update banner set title=#{title} , url=#{url}, status=#{status}, createDate=#{createDate}, description=#{description} where id=#{id}
+    </update>
+</mapper>

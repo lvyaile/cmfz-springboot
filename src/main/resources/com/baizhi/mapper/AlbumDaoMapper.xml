@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <resultMap type="Album" id="albumResultMap">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="score" property="score"/>
+        <result column="author" property="author"/>
+        <result column="broadcast" property="broadcast"/>
+        <result column="count" property="count"/>
+        <result column="brief" property="brief"/>
+        <result column="publishDate" property="publishDate"/>
+        <result column="coverImg" property="coverImg"/>
+        <result column="status" property="status"/>
+        <result column="createDate" property="createDate"/>
+        <collection property="children" ofType="Chapter">
+            <id column="id1" property="id"/>
+            <result column="title1" property="title"/>
+            <result column="url1" property="url"/>
+            <result column="size1" property="size"/>
+            <result column="duration1" property="duration"/>
+            <result column="cerateDate1" property="cerateDate"/>
+            <result column="albumId1" property="albumId"/>
+        </collection>
+    </resultMap>
+    <select id="queryAlbum" resultMap="albumResultMap">
+        SELECT
+        t1.id,
+        t1.title,
+        t1.score,
+        t1.author,
+        t1.broadcast,
+        t1.count,
+        t1.brief,
+        t1.publishDate,
+        t1.coverImg,
+        t1.status,
+        t1.createDate,
+        t2.id id1,
+        t2.title title1,
+        t2.url url1,
+        t2.size size1,
+        t2.duration duration1,
+        t2.cerateDate cerateDate1,
+        t2.albumId albumId1
+        FROM
+        album t1
+        LEFT JOIN chapter t2 ON t1.id = t2.albumId
+        LIMIT #{start},#{end}
+    </select>
+    <select id="getCount" resultType="int">
+        select count(id) from album
+    </select>
+    <select id="queryOne" resultType="Album">
+        select * from album where id=#{id}
+    </select>
+
+    <insert id="add">
+        insert into album values(0,#{title},#{score},#{author},#{broadcast},#{count},#{brief},sysDate(),#{coverImg},#{status},sysDate())
+    </insert>
+</mapper>
